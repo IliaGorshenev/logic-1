@@ -1,7 +1,6 @@
 'use client';
 
 import { motion, useAnimation } from 'framer-motion';
-import Image from 'next/image';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
@@ -69,16 +68,30 @@ export default function TeacherSection() {
       </motion.h2>
       <div className="flex flex-col md:flex-row gap-8 items-center">
         <motion.div variants={imageVariants} className="w-full md:w-1/3">
-          <div className="relative aspect-square max-w-[250px] mx-auto overflow-hidden rounded-full shadow-lg">
-            <Image
-              src="/logic-3.jpg" // Make sure to add this image to your public/images folder
-              alt="Татьяна Ульянова - преподаватель логики"
-              fill
-              sizes="(max-width: 768px) 100vw, 250px"
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 rounded-full ring-4 ring-primary-200 ring-opacity-50"></div>
+          <div className="relative mx-auto overflow-hidden rounded-3xl shadow-xl bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-primary-900/30 dark:to-secondary-900/30 p-2 max-w-[280px]">
+            <div className="relative aspect-[4/5] overflow-hidden rounded-2xl">
+              <img
+                src="/images/logic-3.jpg"
+                alt="Татьяна Ульянова - преподаватель логики"
+                sizes="(max-width: 768px) 100vw, 280px"
+                className="object-cover w-full h-full"
+              />
+
+              {/* Decorative elements */}
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/30 to-transparent opacity-60"></div>
+
+              {/* Highlight border */}
+              <div className="absolute inset-0 rounded-2xl ring-2 ring-white/30 ring-opacity-50"></div>
+
+              {/* Decorative dots */}
+             
+            </div>
+
+            {/* Caption */}
+            <div className="absolute bottom-4 left-4 right-4 bg-white/80 dark:bg-black/60 backdrop-blur-sm rounded-xl p-2 text-center">
+              <p className="text-sm font-medium text-default-700 dark:text-white">Татьяна Ульянова</p>
+              <p className="text-xs text-default-500 dark:text-default-400">Преподаватель логики</p>
+            </div>
           </div>
         </motion.div>
         <div className="w-full md:w-2/3">

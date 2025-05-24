@@ -1,7 +1,13 @@
 'use client';
 
 import { Link } from '@heroui/link';
+import { button as buttonStyles } from '@heroui/theme';
+import type { ISourceOptions } from '@tsparticles/engine';
+import Particles, { initParticlesEngine } from '@tsparticles/react';
+import { loadSlim } from '@tsparticles/slim';
 import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
 interface HeroSectionProps {
   title: string;
@@ -11,6 +17,103 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({ title, subtitle, buttonPrimaryClass, buttonSecondaryClass }: HeroSectionProps) {
+  const [init, setInit] = useState(false);
+  const { theme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  
+  // Initialize particles engine once
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine);
+    }).then(() => {
+      setInit(true);
+    });
+    
+    // Set mounted to true after component mounts to avoid hydration mismatch
+    setMounted(true);
+  }, []);
+  
+  // Determine if dark mode is active
+  const isDarkMode = mounted && (theme === 'dark' || resolvedTheme === 'dark');
+
+  // Dynamically set particle options based on theme
+  const particlesOptions: ISourceOptions = {
+    fullScreen: { enable: false },
+    background: {
+      color: {
+        value: isDarkMode ? '#000000' : '#ffffff',
+      },
+    },
+    fpsLimit: 60,
+    interactivity: {
+      events: {
+        onHover: {
+          enable: true,
+          mode: 'grab',
+        },
+      },
+      modes: {
+        grab: {
+          distance: 200,
+          links: {
+            opacity: 0.7,
+            color: isDarkMode ? '#ffffff' : '#000000',
+          },
+        },
+      },
+    },
+    particles: {
+      color: {
+        value: isDarkMode 
+          ? ['#ffffff', '#cccccc', '#aaaaaa'] 
+          : ['#000000', '#333333', '#555555'],
+      },
+      links: {
+        color: isDarkMode ? '#ffffff' : '#000000',
+        distance: 290,
+        enable: true,
+        opacity: 0.4,
+        width: 1,
+      },
+      collisions: {
+        enable: true,
+      },
+      move: {
+        direction: 'none',
+        enable: true,
+        outModes: {
+          default: 'bounce',
+        },
+        random: true,
+        speed: 1,
+        straight: false,
+      },
+      number: {
+        density: {
+          enable: true,
+        },
+        value: 80,
+      },
+      opacity: {
+        value: 0.5,
+      },
+      shape: {
+        type: 'circle',
+      },
+      size: {
+        value: { min: 1, max: 3 },
+      },
+      twinkle: {
+        particles: {
+          enable: true,
+          frequency: 0.05,
+          opacity: 1,
+        },
+      },
+    },
+    detectRetina: true,
+  };
+
   // Animation variants
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -68,30 +171,59 @@ export default function HeroSection({ title, subtitle, buttonPrimaryClass, butto
   };
 
   return (
-    <motion.div className="container px-4 md:px-6 flex flex-col items-center gap-4 text-center py-16" initial="hidden" animate="visible" variants={containerVariants}>
-      <motion.h1 className={title} variants={itemVariants}>
-        Курсы логики и критического мышления
-      </motion.h1>
+    <div className="relative min-h-[90vh] w-full overflow-hidden">
+      {/* Particles Background */}
+      <div style={{ minHeight: '100vh', height: 'auto' }}  className="absolute inset-0 z-0 overflow-hidden bg-gradient-to-b from-white to-gray-900">
+        {init && <Particles id="tsparticles" options={particlesOptions} className="absolute inset-0 w-full min-h-ful" />}
+        {/* <div className="absolute inset-0 bg-black/30 z-[2]"></div> */}
+      </div>
 
-      <motion.h2 className={`${subtitle} mt-4`} variants={itemVariants}>
-        Развивайте логическое мышление с профессиональным преподавателем
-      </motion.h2>
+      {/* Content */}
+      <motion.div
+        className="container relative z-10 px-4 md:px-6 flex flex-col items-center gap-4 text-center py-16 h-full min-h-[90vh] justify-center"
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}>
+        <motion.h1 className={`${title} text-black dark:text-white`} variants={itemVariants}>
+          Курсы логики и критического мышления
+        </motion.h1>
 
-      <motion.div className="flex gap-3 mt-4" variants={buttonContainerVariants}>
-        <motion.div variants={buttonVariants} whileHover="hover" whileTap="tap">
-          <Link href="#contact" className={buttonPrimaryClass}>
-            Записаться на занятие
-          </Link>
-        </motion.div>
+        <motion.h2 className={`${subtitle} mt-4 text-gray-800 dark:text-gray-200`} variants={itemVariants}>
+          Развивайте логическое мышление с профессиональным преподавателем
+        </motion.h2>
 
-        <motion.div variants={buttonVariants} whileHover="hover" whileTap="tap">
-          <Link href="#program" className={buttonSecondaryClass}>
-            Программа курсов
-          </Link>
+        <motion.div className="flex gap-3 mt-6" variants={buttonContainerVariants}>
+          <motion.div variants={buttonVariants} whileHover="hover" whileTap="tap">
+            <Link
+              href="#contact"
+              className={buttonStyles({
+                color: 'primary',
+                variant: 'shadow',
+                size: 'lg',
+                class: 'w-full sm:w-auto',
+              })}>
+              Записаться на занятие
+            </Link>
+          </motion.div>
+
+          <motion.div variants={buttonVariants} whileHover="hover" whileTap="tap">
+            <Link
+              href="#program"
+              className={buttonStyles({
+                color: 'default',
+                variant: 'bordered',
+                size: 'lg',
+                class: isDarkMode 
+                  ? 'w-full sm:w-auto border-white/70 text-white hover:bg-white/10' 
+                  : 'w-full sm:w-auto border-black/70 text-black hover:bg-black/5',
+              })}>
+              Программа курсов
+            </Link>
+          </motion.div>
         </motion.div>
       </motion.div>
 
-      {/* Optional decorative element */}
+      {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{
@@ -104,21 +236,21 @@ export default function HeroSection({ title, subtitle, buttonPrimaryClass, butto
           repeatType: 'reverse',
           delay: 2,
         }}
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 hidden md:block">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          className="text-primary">
-          <path d="M12 5v14"></path>
-          <path d="m19 12-7 7-7-7"></path>
-        </svg>
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 hidden md:block">
+        <div className="w-8 h-12 border-2 border-black/50 dark:border-white/50 rounded-full flex justify-center">
+          <motion.div
+            className="w-1.5 h-3 bg-black/80 dark:bg-white/80 rounded-full mt-2"
+            animate={{
+              y: [0, 8, 0],
+              opacity: [0.8, 0.2, 0.8],
+            }}
+            transition={{
+              repeat: Infinity,
+              duration: 1.5,
+            }}
+          />
+        </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }
