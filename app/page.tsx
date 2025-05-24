@@ -13,9 +13,12 @@ export default function Home() {
   // Pre-compute button styles for HeroSection
   const buttonPrimaryClass = buttonStyles({ color: 'primary', radius: 'full', variant: 'shadow' });
   const buttonSecondaryClass = buttonStyles({ variant: 'bordered', radius: 'full' });
-  
+
   // Additional button style for PricingSection
   const buttonFlatClass = buttonStyles({ color: 'primary', variant: 'flat', radius: 'full' });
+
+  // Pre-compute button style for ContactSection
+  const contactButtonClass = buttonStyles({ color: 'primary', radius: 'full', size: 'md' });
 
   // Pre-compute title and subtitle classes
   const titleClass = title();
@@ -28,12 +31,8 @@ export default function Home() {
       <AdvantagesSection />
       <ProgramSection />
       <ReviewsSection />
-      <PricingSection 
-        buttonPrimaryClass={buttonPrimaryClass} 
-        buttonSecondaryClass={buttonSecondaryClass} 
-        buttonFlatClass={buttonFlatClass} 
-      />
-      <ContactSection buttonStyles={buttonStyles} />
+      <PricingSection buttonPrimaryClass={buttonPrimaryClass} buttonSecondaryClass={buttonSecondaryClass} buttonFlatClass={buttonFlatClass} />
+      <ContactSection buttonClass={contactButtonClass} />
       <FaqSection />
     </section>
   );
