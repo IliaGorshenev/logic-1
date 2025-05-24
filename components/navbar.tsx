@@ -7,7 +7,7 @@ import { link as linkStyles } from '@heroui/theme';
 import clsx from 'clsx';
 import NextLink from 'next/link';
 
-import { GithubIcon, HeartFilledIcon, Logo, SearchIcon, TwitterIcon } from '@/components/icons';
+import { HeartFilledIcon, Logo, SearchIcon } from '@/components/icons';
 import { ThemeSwitch } from '@/components/theme-switch';
 import { siteConfig } from '@/config/site';
 
@@ -56,7 +56,6 @@ export const Navbar = () => {
 
       <NavbarContent className="hidden sm:flex basis-1/5 sm:basis-full" justify="end">
         <NavbarItem className="hidden sm:flex gap-2">
-          
           <ThemeSwitch />
         </NavbarItem>
 
@@ -73,7 +72,6 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-         
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>
