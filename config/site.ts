@@ -1,69 +1,71 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Next.js + HeroUI",
-  description: "Make beautiful websites regardless of your design experience.",
+  name: "Курсы логики",
+  description: "Курсы логики и критического мышления с профессиональным преподавателем.",
   navItems: [
     {
-      label: "Home",
+      label: "Главная",
       href: "/",
     },
     {
-      label: "Docs",
-      href: "/docs",
+      label: "О преподавателе",
+      href: "#teacher",
     },
     {
-      label: "Pricing",
-      href: "/pricing",
+      label: "Программа",
+      href: "#program",
     },
     {
-      label: "Blog",
-      href: "/blog",
+      label: "Отзывы",
+      href: "#reviews",
     },
     {
-      label: "About",
-      href: "/about",
+      label: "Цены",
+      href: "#pricing",
+    },
+    {
+      label: "Контакты",
+      href: "#contact",
+    },
+    {
+      label: "FAQ",
+      href: "#faq",
     },
   ],
   navMenuItems: [
     {
-      label: "Profile",
-      href: "/profile",
+      label: "Главная",
+      href: "/",
     },
     {
-      label: "Dashboard",
-      href: "/dashboard",
+      label: "О преподавателе",
+      href: "#teacher",
     },
     {
-      label: "Projects",
-      href: "/projects",
+      label: "Программа",
+      href: "#program",
     },
     {
-      label: "Team",
-      href: "/team",
+      label: "Отзывы",
+      href: "#reviews",
     },
     {
-      label: "Calendar",
-      href: "/calendar",
+      label: "Цены",
+      href: "#pricing",
     },
     {
-      label: "Settings",
-      href: "/settings",
+      label: "Контакты",
+      href: "#contact",
     },
     {
-      label: "Help & Feedback",
-      href: "/help-feedback",
-    },
-    {
-      label: "Logout",
-      href: "/logout",
+      label: "FAQ",
+      href: "#faq",
     },
   ],
   links: {
-    github: "https://github.com/heroui-inc/heroui",
-    twitter: "https://twitter.com/hero_ui",
-    docs: "https://heroui.com",
-    discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev",
+    telegram: "https://t.me/your_telegram_username",
+    whatsapp: "https://wa.me/your_phone_number",
+    email: "mailto:your_email@example.com",
   },
 };

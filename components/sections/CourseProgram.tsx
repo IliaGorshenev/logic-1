@@ -1,207 +1,79 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from 'framer-motion';
+import React from 'react';
 
 interface CourseProgramProps {
   title: string;
   description: string;
   topics: string[];
+  icon?: React.ReactNode;
+  index: number;
 }
 
-export default function CourseProgram({ title, description, topics }: CourseProgramProps) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  // Detailed course plan for the "Базовый курс логики"
-  const detailedPlan = title === "Базовый курс логики" ? [
-    {
-      title: "ТЕМА I. ПРЕДМЕТ И ОСНОВНЫЕ ПОНЯТИЯ ЛОГИКИ",
-      topics: [
-        "Логика как нормативная наука о формах и приёмах интеллектуальной познавательной деятельности",
-        "Логика и правильное мышление",
-        "Логическая форма и способы ее выявления",
-        "Логические законы",
-        "Рассуждение как логическая познавательная процедура",
-        "Отношение логического следования. Правильные и неправильные умозаключения"
-      ]
-    },
-    {
-      title: "ТЕМА II. ЛОГИЧЕСКИЙ АНАЛИЗ ЯЗЫКА",
-      topics: [
-        "Язык как знаковая информационная система",
-        "Смысл и значение языкового знака",
-        "Основные семантические категории языковых выражений",
-        "Принципы употребления языковых знаков: предметность, однозначность и взаимозаменяемость",
-        "Экстенсиональные и интенсиональные контексты языка",
-        "Понятие функции и виды",
-        "Функциональный анализ языка: термины как знаки функций и аргументов",
-        "Понятие формализованного языка",
-        "Язык логики высказываний",
-        "Язык логики предикатов первого порядка"
-      ]
-    },
-    {
-      title: "ТЕМА III. ЛОГИЧЕСКИЙ АНАЛИЗ ВЫСКАЗЫВАНИЙ",
-      topics: [
-        "Сложные высказывания: виды и логическое содержание",
-        "Атрибутивные высказывания: состав, виды и логические формы",
-        "Реляционные высказывания: состав, виды и логические формы"
-      ]
-    },
-    {
-      title: "ТЕМА IV. КЛАССИЧЕСКАЯ ЛОГИКА ВЫСКАЗЫВАНИЙ",
-      topics: [
-        "Табличное определение пропозициональных связок",
-        "Алгоритм построения таблиц истинности",
-        "Тождественно-истинные, тождественно-ложные, выполнимые и опровержимые формулы",
-        "Логически истинные, ложные и недетерминированные высказывания",
-        "Табличный метод установления логических отношений между сложными высказываниями",
-        "Табличный метод проверки умозаключений"
-      ]
-    },
-    {
-      title: "ТЕМА V. СИЛЛОГИСТИКА",
-      topics: [
-        "Семантика традиционной силлогистики",
-        "Условия истинности и ложности категорических высказываний",
-        "Логические отношения между категорическими высказываниями",
-        "Выводы по логическому квадрату",
-        "Обращение, превращение, противопоставление субъекту и предикату",
-        "Простой категорический силлогизм: состав, фигуры и модусы",
-        "Общие правила силлогизма",
-        "Проверка силлогизмов с помощью круговых диаграмм",
-        "Энтимема"
-      ]
-    },
-    {
-      title: "ТЕМА VI. ПРАВДОПОДОБНЫЕ РАССУЖДЕНИЯ",
-      topics: [
-        "Логическая вероятность высказываний: условная и безусловная",
-        "Отношение логического подтверждения",
-        "Индуктивные умозаключения",
-        "Методы установления причинной связи",
-        "Умозаключения по аналогии"
-      ]
-    },
-    {
-      title: "ТЕМА VII. ПОНЯТИЕ",
-      topics: [
-        "Понятие как форма мысли. Выражение понятий в языке",
-        "Логическая форма понятий",
-        "Объем и содержание понятий. Элементы и части объемов понятий",
-        "Виды понятий",
-        "Виды объемных отношений между понятиями",
-        "Установление отношений между понятиями по фактическим объемам (круги Эйлера)",
-        "Установление отношений между понятиями по логическим объемам (диаграммы Венна)",
-        "Обобщение и ограничение понятий",
-        "Булевы операции над объемами понятий",
-        "Деление понятий"
-      ]
+export default function CourseProgram({ title, description, topics, icon, index }: CourseProgramProps) {
+  // Animation variants for list items
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
     }
-  ] : [];
+  };
 
-  // Skills section for the "Базовый курс логики"
-  const skills = title === "Базовый курс логики" ? [
-    {
-      title: "Мастерски анализировать информацию",
-      description: "Вы научитесь чётко различать факты и мнения, выявлять скрытые противоречия и строить убедительные аргументы, что даст вам преимущество в любой дискуссии."
-    },
-    {
-      title: "Развивать структурное мышление",
-      description: "Сложные задачи станут для вас простыми и понятными. Вы будете уверенно разбивать их на части, находить эффективные решения и подходить к проблемам с логическим и стратегическим мышлением."
-    },
-    {
-      title: "Уверенно отстаивать свою точку зрения",
-      description: "Освоив различные техники логического анализа и аргументации, вы сможете ясно и убедительно выражать свои идеи, становясь настоящим мастером диалога."
-    },
-    {
-      title: "Улучшать концентрацию и внимание к деталям",
-      description: "Решение логических задач требует сосредоточенности. Это поможет вам повысить концентрацию и развить навык фокусироваться на важных деталях, что будет полезно в любой сфере жизни."
-    },
-    {
-      title: "Использовать логику в повседневной жизни",
-      description: "Логика станет вашим надёжным помощником в самых разных ситуациях — от серьёзных дискуссий до принятия быстрых решений в быту."
-    },
-    {
-      title: "Принимать обоснованные решения",
-      description: "Вы научитесь мыслить критически и системно, что поможет принимать взвешенные решения, обоснованные не только эмоциями, но и логическими рассуждениями."
+  const itemVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.4
+      }
     }
-  ] : [];
+  };
+
+  // Alternate the card layout based on index (left/right)
+  const isEven = index % 2 === 0;
 
   return (
-    <div className="border rounded-large p-6 bg-white">
-      <div className="flex justify-between items-center cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
-        <div>
-          <h3 className="text-xl font-semibold">{title}</h3>
-          <p className="text-gray-600 mt-1">{description}</p>
+    <div className={`bg-white p-6 rounded-xl shadow-sm ${isEven ? 'border-l-4' : 'border-r-4'} border-primary`}>
+      <div className="flex flex-col md:flex-row gap-4 items-start">
+        {/* Icon Section */}
+        <div className="text-primary p-3 bg-primary-50 rounded-full">
+          {icon}
         </div>
-        <button 
-          className="p-2 rounded-full hover:bg-gray-100 transition-colors"
-          aria-label={isOpen ? "Свернуть" : "Развернуть"}
-        >
-          <svg 
-            width="20" 
-            height="20" 
-            viewBox="0 0 20 20" 
-            fill="none" 
-            xmlns="http://www.w3.org/2000/svg"
-            className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`}
+        
+        {/* Content Section */}
+        <div className="flex-1">
+          <h3 className="text-xl font-semibold mb-2">{title}</h3>
+          <p className="text-default-600 mb-4">{description}</p>
+          
+          <motion.ul 
+            className="space-y-2"
+            variants={listVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
           >
-            <path d="M5 7.5L10 12.5L15 7.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </button>
+            {topics.map((topic, i) => (
+              <motion.li 
+                key={i} 
+                className="flex items-start gap-2"
+                variants={itemVariants}
+              >
+                <span className="text-primary mt-1">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                </span>
+                <span>{topic}</span>
+              </motion.li>
+            ))}
+          </motion.ul>
+        </div>
       </div>
-      
-      <div className="mt-4">
-        <h4 className="font-medium mb-2">Основные темы:</h4>
-        <ul className="list-disc pl-5 space-y-1">
-          {topics.map((topic, index) => (
-            <li key={index}>{topic}</li>
-          ))}
-        </ul>
-      </div>
-
-      <AnimatePresence>
-        {isOpen && detailedPlan.length > 0 && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3 }}
-            className="overflow-hidden"
-          >
-            <div className="mt-6 pt-6 border-t">
-              <h4 className="text-lg font-semibold mb-4">ПЛАН КУРСА ПО ЛОГИКЕ</h4>
-              <div className="space-y-4">
-                {detailedPlan.map((section, index) => (
-                  <div key={index}>
-                    <h5 className="font-medium">{section.title}</h5>
-                    <ul className="list-disc pl-5 mt-2 space-y-1">
-                      {section.topics.map((topic, topicIndex) => (
-                        <li key={topicIndex} className="text-sm">{topic}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {skills.length > 0 && (
-              <div className="mt-6 pt-6 border-t">
-                <h4 className="text-lg font-semibold mb-4">Какие навыки вы приобретёте, изучая логику?</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {skills.map((skill, index) => (
-                    <div key={index} className="p-4 border rounded-lg">
-                      <h5 className="font-medium mb-2">{skill.title}</h5>
-                      <p className="text-sm">{skill.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
