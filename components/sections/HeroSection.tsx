@@ -20,7 +20,7 @@ export default function HeroSection({ title, subtitle, buttonPrimaryClass, butto
   const [init, setInit] = useState(false);
   const { theme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  
+
   // Initialize particles engine once
   useEffect(() => {
     initParticlesEngine(async (engine) => {
@@ -28,11 +28,11 @@ export default function HeroSection({ title, subtitle, buttonPrimaryClass, butto
     }).then(() => {
       setInit(true);
     });
-    
+
     // Set mounted to true after component mounts to avoid hydration mismatch
     setMounted(true);
   }, []);
-  
+
   // Determine if dark mode is active
   const isDarkMode = mounted && (theme === 'dark' || resolvedTheme === 'dark');
 
@@ -64,9 +64,7 @@ export default function HeroSection({ title, subtitle, buttonPrimaryClass, butto
     },
     particles: {
       color: {
-        value: isDarkMode 
-          ? ['#ffffff', '#cccccc', '#aaaaaa'] 
-          : ['#000000', '#333333', '#555555'],
+        value: isDarkMode ? ['#ffffff', '#cccccc', '#aaaaaa'] : ['#000000', '#333333', '#555555'],
       },
       links: {
         color: isDarkMode ? '#ffffff' : '#000000',
@@ -171,10 +169,12 @@ export default function HeroSection({ title, subtitle, buttonPrimaryClass, butto
   };
 
   return (
-    <div className="relative min-h-[90vh] w-full overflow-hidden">
+    <div className="relative min-h-[100vh] w-full">
       {/* Particles Background */}
-      <div style={{ minHeight: '100vh', height: 'auto' }}  className="absolute inset-0 z-0 overflow-hidden bg-gradient-to-b from-white to-gray-900">
-        {init && <Particles id="tsparticles" options={particlesOptions} className="absolute inset-0 w-full min-h-ful" />}
+      <div
+        style={{ minHeight: '100vh', height: 'auto', minWidth: '100vw', left: '50%', right: '50%', marginLeft: '-50vw', marginRight: '-50vw', position: 'absolute' }}
+        className="z-0 overflow-hidden bg-gradient-to-b from-white to-gray-900">
+        {init && <Particles id="tsparticles" options={particlesOptions} className="absolute inset-0 w-full min-h-full" />}
         {/* <div className="absolute inset-0 bg-black/30 z-[2]"></div> */}
       </div>
 
@@ -213,9 +213,7 @@ export default function HeroSection({ title, subtitle, buttonPrimaryClass, butto
                 color: 'default',
                 variant: 'bordered',
                 size: 'lg',
-                class: isDarkMode 
-                  ? 'w-full sm:w-auto border-white/70 text-white hover:bg-white/10' 
-                  : 'w-full sm:w-auto border-black/70 text-black hover:bg-black/5',
+                class: isDarkMode ? 'w-full sm:w-auto border-white/70 text-white hover:bg-white/10' : 'w-full sm:w-auto border-black/70 text-black hover:bg-black/5',
               })}>
               Программа курсов
             </Link>

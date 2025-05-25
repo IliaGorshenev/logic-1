@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 
 interface ContactFormProps {
-  buttonClass: string; // Changed from buttonStyles function to buttonClass string
+  buttonClass: string;
 }
 
 export default function ContactForm({ buttonClass }: ContactFormProps) {
@@ -17,6 +17,7 @@ export default function ContactForm({ buttonClass }: ContactFormProps) {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -26,21 +27,36 @@ export default function ContactForm({ buttonClass }: ContactFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    // Here you would normally send the data to your backend
-    console.log('Form submitted:', formData);
+      const data = await response.json();
 
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData({ name: '', email: '', phone: '', message: '' });
+      if (response.ok) {
+        setIsSubmitted(true);
+        setFormData({ name: '', email: '', phone: '', message: '' });
 
-    // Reset success message after 5 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-    }, 5000);
+        // Reset success message after 5 seconds
+        setTimeout(() => {
+          setIsSubmitted(false);
+        }, 5000);
+      } else {
+        setError(data.error || 'Не удалось отправить сообщение. Пожалуйста, попробуйте позже.');
+      }
+    } catch (err) {
+      console.error('Error submitting form:', err);
+      setError('Произошла ошибка при отправке формы. Пожалуйста, попробуйте позже.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -58,6 +74,16 @@ export default function ContactForm({ buttonClass }: ContactFormProps) {
         </motion.div>
       ) : (
         <>
+          {error && (
+            <motion.div
+              className="bg-danger-100 text-danger p-4 rounded-md text-center"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}>
+              <p>{error}</p>
+            </motion.div>
+          )}
+
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-default-700 mb-1">
               Имя
